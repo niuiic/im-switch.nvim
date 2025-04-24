@@ -4,10 +4,10 @@ local config = {
 			resolve(string.find(res.stdout, "1") == nil)
 		end)
 	end,
-	active_input = function()
+	active_input_method = function()
 		vim.system({ "fcitx5-remote", "-o" })
 	end,
-	inactive_input = function()
+	inactive_input_method = function()
 		vim.system({ "fcitx5-remote", "-c" })
 	end,
 }
