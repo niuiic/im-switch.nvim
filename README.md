@@ -1,6 +1,6 @@
-# fcitx.nvim
+# im-switch.nvim
 
-Neovim plugin to automatically switch fcitx input method without delay.
+Neovim plugin to automatically switch input method without delay.
 
 [More neovim plugins](https://github.com/niuiic/awesome-neovim-plugins)
 
@@ -9,9 +9,17 @@ Neovim plugin to automatically switch fcitx input method without delay.
 Default configuration here.
 
 ```lua
-require("fcitx").setup({
-	get_status = { cmd = "fcitx5-remote" },
-	active_input_method = { cmd = "fcitx5-remote", args = { "-o" } },
-	inactive_input_method = { cmd = "fcitx5-remote", args = { "-c" } },
+require("im-switch").setup({
+	is_active = function(resolve)
+		vim.system({ "fcitx5-remote" }, nil, function(res)
+			resolve(string.find(res.stdout, "1") == nil)
+		end)
+	end,
+	active_input = function()
+		vim.system({ "fcitx5-remote", "-o" })
+	end,
+	inactive_input = function()
+		vim.system({ "fcitx5-remote", "-c" })
+	end,
 })
 ```
